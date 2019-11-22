@@ -4,12 +4,15 @@
 #include "config.h"
 
 #define LED 2
+#define LAMP 4
 
 WiFiClient wifiClient;
 PubSubClient client(wifiClient);
 
 void setup() {
+  pinMode(LAMP, OUTPUT);
   pinMode(LED, OUTPUT);
+  digitalWrite(LAMP, LOW);
   digitalWrite(LED, LOW);
   Serial.begin(115200);
 
@@ -21,8 +24,10 @@ void setup() {
 
 void callback(char* topic, byte* payload, unsigned int length) {
   if ((char)payload[0] == '1') {
+    digitalWrite(LAMP, HIGH);
     digitalWrite(LED, HIGH);    
   } else {
+    digitalWrite(LAMP, LOW);
     digitalWrite(LED, LOW);
   }
   return;
